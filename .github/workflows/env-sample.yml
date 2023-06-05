@@ -1,0 +1,28 @@
+name: Environments example
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  prod-task:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      # uses production enviroment secrets over repository secrets
+      - name: Run node build process
+        run: "NODE_ENV=${{ env.NODE_ENV }} npm run build"
+  dev-task:
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      # uses development enviroment secrets over repository secrets
+      - name: Run node build process
+        run: "NODE_ENV=${{ env.NODE_ENV }} npm run build"
+  task:
+    runs-on: ubuntu-latest
+    steps:
+      # uses repository secrets as no environment is defined
+      - name: Run node build process
+        run: "NODE_ENV=${{ env.NODE_ENV }} npm run build"
